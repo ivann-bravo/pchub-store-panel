@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 // Builds the stock-related WHERE fragment (no placeholders needed, pure SQL)
 function stockWhereSQL(localStock: string): string {
   const linkStockSubq = `EXISTS (

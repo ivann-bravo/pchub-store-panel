@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { roundToNine } from "@/lib/number-format";
 
+export const dynamic = "force-dynamic";
+
 interface ProductRow {
   product_id: number;
   woocommerce_id: number;

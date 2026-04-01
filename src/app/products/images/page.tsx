@@ -216,6 +216,7 @@ function ReplaceUrlDialog({
           </div>
 
           {url && (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={url}
               alt="Preview"
@@ -337,6 +338,7 @@ function GalleryDialog({
               const label = isMain ? "Principal" : `Galería #${idx - mainUrls.length + 1}`;
               return (
                 <div key={idx} className="flex items-center gap-3 p-2 rounded-md border">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={url}
                     alt={label}
@@ -888,6 +890,7 @@ export default function ImagesPage() {
                       {/* Thumbnail */}
                       <td className="px-4 py-2.5">
                         {mainUrl ? (
+                          // eslint-disable-next-line @next/next/no-img-element
                           <img
                             src={mainUrl}
                             alt=""
