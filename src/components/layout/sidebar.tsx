@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { LucideIcon } from "lucide-react";
@@ -244,11 +245,11 @@ export function Sidebar() {
       <div className="flex h-16 items-center px-4 shrink-0">
         {collapsed ? (
           <div className="flex w-full justify-center">
-            <img src="/isotipo.svg" alt="Try" className="h-7 w-7 dark:invert-0 invert" />
+            <Image src="/isotipo.svg" alt="PCHub" width={28} height={28} className="h-7 w-7 dark:invert-0 invert" />
           </div>
         ) : (
           <div className="flex items-center gap-3 px-2">
-            <img src="/logo.svg" alt="PCHub Argentina" className="h-14 w-auto dark:invert-0 invert" />
+            <Image src="/logo.svg" alt="PCHub Argentina" width={160} height={56} className="h-14 w-auto dark:invert-0 invert" />
           </div>
         )}
       </div>

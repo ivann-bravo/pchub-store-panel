@@ -156,9 +156,9 @@ function ProductsContent() {
   const sortBy = searchParams.get("sortBy") || "name";
   const sortOrder = searchParams.get("sortOrder") || "asc";
 
-  const selectedCategories = categoriesParam ? categoriesParam.split(",") : [];
-  const selectedBrands = brandsParam ? brandsParam.split(",") : [];
-  const selectedSuppliers = suppliersParam ? suppliersParam.split(",") : [];
+  const selectedCategories = useMemo(() => categoriesParam ? categoriesParam.split(",") : [], [categoriesParam]);
+  const selectedBrands = useMemo(() => brandsParam ? brandsParam.split(",") : [], [brandsParam]);
+  const selectedSuppliers = useMemo(() => suppliersParam ? suppliersParam.split(",") : [], [suppliersParam]);
 
   // Merge available options with currently selected values so selections
   // remain visible in the dropdown even when they fall outside the current context.

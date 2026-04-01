@@ -3,12 +3,20 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import Database from "better-sqlite3";
 import path from "path";
+import fs from "fs";
 import { verifyTOTPCode } from "@/lib/totp";
 
-const dbPath =
-  process.env.DEMO_MODE === "true"
-    ? "/tmp/pchub-demo.db"
-    : path.join(process.cwd(), "data", "pchub-demo.db");
+function resolveAuthDbPath(): string {
+  if (process.env.DEMO_MODE === "true") {
+    const tmpPath = "/tmp/pchub-demo.db";
+    if (!fs.existsSync(tmpPath)) {
+      const seedPath = path.join(process.cwd(), "data", "demo-seed.db");
+      fs.copyFileSync(seedPath, tmpPath);
+    }
+    return tmpPath;
+  }
+  return path.join(process.cwd(), "data", "pchub-demo.db");
+}
 
 interface UserRow {
   id: number;
@@ -33,7 +41,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
-        const sqlite = new Database(dbPath);
+        const sqlite = new Database(resolveAuthDbPath());
         sqlite.pragma("journal_mode = WAL");
         sqlite.pragma("busy_timeout = 5000");
         try {
