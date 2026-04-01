@@ -411,6 +411,17 @@ const TAB_LABEL: Record<StatusTab, string> = {
 };
 
 export default function ImagesPage() {
+  if (process.env.NEXT_PUBLIC_DEMO_MODE === "true") {
+    return (
+      <div className="flex flex-col items-center justify-center h-[60vh] gap-3 text-muted-foreground">
+        <p className="text-sm">Esta función no está disponible en la demo.</p>
+      </div>
+    );
+  }
+  return <ImagesPageInner />;
+}
+
+function ImagesPageInner() {
   const [auditStatus, setAuditStatus] = useState<AuditStatus | null>(null);
   const [auditing, setAuditing] = useState(false);
   const [auditProgress, setAuditProgress] = useState<{ offset: number; total: number } | null>(null);

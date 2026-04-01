@@ -311,6 +311,10 @@ export default function ProductDetailPage() {
 
   // ── WooCommerce: push panel data → WC ────────────────────────────────────
   const handleWooSync = async () => {
+    if (process.env.NEXT_PUBLIC_DEMO_MODE === "true") {
+      toast.warning("⚡ Modo Demo: esta función conecta con WooCommerce en producción", { duration: 4000 });
+      return;
+    }
     setWooSyncing(true);
     try {
       const [payloadRes, cfgRes] = await Promise.all([
@@ -422,6 +426,10 @@ export default function ProductDetailPage() {
   };
 
   const handleWooImageUpload = async () => {
+    if (process.env.NEXT_PUBLIC_DEMO_MODE === "true") {
+      toast.warning("⚡ Modo Demo: el procesamiento de imágenes requiere WooCommerce", { duration: 4000 });
+      return;
+    }
     if (!product?.imageUrl) { toast.error("El producto no tiene imagen cargada en el panel"); return; }
     setWooImageUploading(true);
     try {
@@ -448,6 +456,10 @@ export default function ProductDetailPage() {
   };
 
   const handleGenerateDescription = async () => {
+    if (process.env.NEXT_PUBLIC_DEMO_MODE === "true") {
+      toast.warning("⚡ Modo Demo: la generación con IA requiere una clave Gemini", { duration: 4000 });
+      return;
+    }
     setGeneratingDesc(true);
     try {
       const res = await fetch(`/api/products/${params.id}/generate-description`, { method: "POST" });

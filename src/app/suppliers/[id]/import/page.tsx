@@ -159,6 +159,10 @@ export default function ImportPage() {
   }, [savedMapping]);
 
   const handleImport = async () => {
+    if (process.env.NEXT_PUBLIC_DEMO_MODE === "true") {
+      toast.warning("⚡ Modo Demo: la importación de catálogos está desactivada en demo", { duration: 4000 });
+      return;
+    }
     if (!file) return;
     setImporting(true);
 

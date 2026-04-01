@@ -102,6 +102,17 @@ const CHANGE_BADGE: Record<ChangeType, string> = {
 // ── Component ──────────────────────────────────────────────────────────────────
 
 export default function SyncLogPage() {
+  if (process.env.NEXT_PUBLIC_DEMO_MODE === "true") {
+    return (
+      <div className="flex flex-col items-center justify-center h-[60vh] gap-3 text-muted-foreground">
+        <p className="text-sm">Esta función no está disponible en la demo.</p>
+      </div>
+    );
+  }
+  return <SyncLogPageInner />;
+}
+
+function SyncLogPageInner() {
   // History state
   const [items, setItems]     = useState<SyncLogEntry[]>([]);
   const [total, setTotal]     = useState(0);

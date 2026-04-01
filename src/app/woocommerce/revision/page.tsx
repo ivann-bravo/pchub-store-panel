@@ -67,6 +67,17 @@ const STATUS_LABELS: Record<Status, string> = {
 };
 
 export default function WooRevisionPage() {
+  if (process.env.NEXT_PUBLIC_DEMO_MODE === "true") {
+    return (
+      <div className="flex flex-col items-center justify-center h-[60vh] gap-3 text-muted-foreground">
+        <p className="text-sm">Esta función no está disponible en la demo.</p>
+      </div>
+    );
+  }
+  return <WooRevisionPageInner />;
+}
+
+function WooRevisionPageInner() {
   const { data: session } = useSession();
   const [tab, setTab] = useState<Status>("pending");
   const [items, setItems] = useState<BlockedItem[]>([]);

@@ -54,6 +54,17 @@ function triggerDownload(url: string) {
 }
 
 export default function DescriptionsPage() {
+  if (process.env.NEXT_PUBLIC_DEMO_MODE === "true") {
+    return (
+      <div className="flex flex-col items-center justify-center h-[60vh] gap-3 text-muted-foreground">
+        <p className="text-sm">Esta función no está disponible en la demo.</p>
+      </div>
+    );
+  }
+  return <DescriptionsPageInner />;
+}
+
+function DescriptionsPageInner() {
   const [status, setStatus] = useState<DescStatus | null>(null);
   const [activeTab, setActiveTab] = useState<BatchType>("products");
 

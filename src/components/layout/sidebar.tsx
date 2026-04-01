@@ -48,6 +48,7 @@ type NavItem = {
   label: string;
   icon: LucideIcon;
   viewerHidden?: boolean;
+  demoHidden?: boolean;
   exactActive?: boolean;
   activePaths?: string[];
   showBadge?: boolean;
@@ -75,8 +76,8 @@ const navSections: NavSection[] = [
         icon: Layers,
         subItems: [{ href: "/combos/buscador", label: "Buscador" }],
       },
-      { href: "/descriptions", label: "Descripciones", icon: Sparkles, viewerHidden: true },
-      { href: "/products/images", label: "Imágenes", icon: ImagePlay, viewerHidden: true },
+      { href: "/descriptions", label: "Descripciones", icon: Sparkles, viewerHidden: true, demoHidden: true },
+      { href: "/products/images", label: "Imágenes", icon: ImagePlay, viewerHidden: true, demoHidden: true },
     ],
   },
   {
@@ -103,10 +104,10 @@ const navSections: NavSection[] = [
   {
     label: "WooCommerce",
     items: [
-      { href: "/woocommerce/revision", label: "Syncs Bloqueados", icon: ShieldAlert, showBadge: true },
-      { href: "/woocommerce/sync-log", label: "Historial de Sync", icon: History },
-      { href: "/products?wooManualPrivate=1", label: "Pausados manualmente", icon: EyeOff },
-      { href: "/settings/woocommerce", label: "Configuración WC", icon: ShoppingCart, viewerHidden: true },
+      { href: "/woocommerce/revision", label: "Syncs Bloqueados", icon: ShieldAlert, showBadge: true, demoHidden: true },
+      { href: "/woocommerce/sync-log", label: "Historial de Sync", icon: History, demoHidden: true },
+      { href: "/products?wooManualPrivate=1", label: "Pausados manualmente", icon: EyeOff, demoHidden: true },
+      { href: "/settings/woocommerce", label: "Configuración WC", icon: ShoppingCart, viewerHidden: true, demoHidden: true },
     ],
   },
 ];
@@ -124,6 +125,7 @@ const settingsNavItems: NavItem[] = [
     label: "Datos de Empresa",
     icon: Building2,
     viewerHidden: true,
+    demoHidden: true,
     exactActive: true,
   },
   {
@@ -131,6 +133,7 @@ const settingsNavItems: NavItem[] = [
     label: "Herramientas Admin",
     icon: Wrench,
     viewerHidden: true,
+    demoHidden: true,
     exactActive: true,
   },
 ];
@@ -155,6 +158,7 @@ export function Sidebar() {
   const [wooBlockedCount, setWooBlockedCount] = useState(0);
   const [quoteFollowUpCount, setQuoteFollowUpCount] = useState(0);
   useEffect(() => {
+    if (process.env.NEXT_PUBLIC_DEMO_MODE === "true") return;
     fetch("/api/woocommerce/sync-blocked?status=pending&limit=1")
       .then((r) => r.json())
       .then((d) => setWooBlockedCount(d.pendingCount ?? 0))
@@ -167,6 +171,7 @@ export function Sidebar() {
 
   const renderNavItem = (item: NavItem) => {
     if (item.viewerHidden && isViewer) return null;
+    if (item.demoHidden && process.env.NEXT_PUBLIC_DEMO_MODE === "true") return null;
     const isActive = getIsActive(item, pathname);
 
     return (
@@ -261,8 +266,9 @@ export function Sidebar() {
         <TooltipProvider delayDuration={0}>
           <div className="space-y-3">
             {navSections.map((section, sectionIdx) => {
+              const isDemo = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
               const visibleItems = section.items.filter(
-                (item) => !item.viewerHidden || !isViewer,
+                (item) => (!item.viewerHidden || !isViewer) && (!item.demoHidden || !isDemo),
               );
               if (visibleItems.length === 0) return null;
 

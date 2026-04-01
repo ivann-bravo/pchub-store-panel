@@ -384,6 +384,10 @@ export default function ComboDetailPage() {
   };
 
   const handleGenerateDescription = async () => {
+    if (process.env.NEXT_PUBLIC_DEMO_MODE === "true") {
+      toast.warning("⚡ Modo Demo: la generación con IA requiere una clave Gemini", { duration: 4000 });
+      return;
+    }
     setGeneratingDesc(true);
     try {
       const res = await fetch(`/api/combos/${id}/generate-description`, { method: "POST" });

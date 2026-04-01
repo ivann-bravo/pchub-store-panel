@@ -113,6 +113,10 @@ export default function AshirSupplierPage() {
 
   const handleImport = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (process.env.NEXT_PUBLIC_DEMO_MODE === "true") {
+      toast.warning("⚡ Modo Demo: la importación de catálogos está desactivada en demo", { duration: 4000 });
+      return;
+    }
     const form = e.currentTarget;
     const fileInput = form.elements.namedItem("file") as HTMLInputElement;
     const file = fileInput?.files?.[0];

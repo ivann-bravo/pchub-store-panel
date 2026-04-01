@@ -50,6 +50,10 @@ export default function SuppliersPage() {
   }, []);
 
   const handleSyncAll = async () => {
+    if (process.env.NEXT_PUBLIC_DEMO_MODE === "true") {
+      toast.warning("⚡ Modo Demo: la sincronización con proveedores está desactivada", { duration: 4000 });
+      return;
+    }
     setSyncing(true);
     try {
       const res = await fetch("/api/auto-sync", { method: "POST" });
